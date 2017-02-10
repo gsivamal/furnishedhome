@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<html>
+<head>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script type="text/javascript">
+
+        function initMap() {
+            var myLatLng = { lat: 55.753900, lng: 37.620617 };
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: myLatLng
+            });
+
+            var contentString = '<div id="content">' +
+                '<a href="http://99.166.71.191:4570/properties/15126/"><img src="/images/15126_primary.jpg" style="width:282px; height:186px;" alt="La Estancia"></a>' +
+            '<p class="big-img-btm-txt"><strong>&nbsp;&nbsp;Vail, Arizona</strong></p' +
+                '<a class="carousel-caption" href="http://99.166.71.191:4570/properties/15126/" title="">' +
+                '    <p class="home_overlay">$9500 / month</p>' +
+                '</a>' +
+            '</div>';
+
+            //var str = "<img src="http://www.sedal-co.ru/images/26.jpg"/>";
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Hello World!'
+            });
+            marker.addListener('click', function () {
+                infowindow.open(map, marker);
+            });
+        }
+
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASM0MkrOM2vy8EfgUbB3IPwRdP9PgNZbY&callback=initMap">
+    </script>
+</body>
+</html>

@@ -31,5 +31,15 @@ namespace FurnishedHome.Controllers
         {
             return View();
         }
+
+        public IActionResult HowItWorks()
+        {
+            return View();
+        }
+
+        public IActionResult Testimonials()
+        {
+            return View();
+        }
     }
 }
