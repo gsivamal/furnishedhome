@@ -1,7 +1,63 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<!DOCTYPE html>
 <html>
+<head>
+    <title>loadMapAsyncHTML</title>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+</head>
+<body>
+    <div id='printoutPanel'></div>
+
+    <div id='myMap' style="position:relative;width:100%;height:500px;"></div>
+    <script type='text/javascript'>
+
+        var key = "Al3nAvLTiRL6-UDLFNLk2hA4bpQ6RoTrigdFz1M5t-H2g7vFZxkSCo57_VREL56v";
+                var map;
+                function loadMapScenario() {
+                    map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+                        credentials: key,//'Your Bing Maps Key'
+                        maxZoom: 15,
+                        minZoom: 12
+                    });
+                    AddNewPin(55.753900, 37.620617, "/images/15126_primary.jpg", 9500);
+                    AddNewPin(55.743900, 37.620617, "/images/13704_primary.jpg",5000);
+                    AddNewPin(55.733900, 37.620617,"/images/15503_primary.jpg",1800);
+                    AddNewPin(55.723900, 37.620617,"/images/15324_primary.jpg",4900);
+                }
+
+                function AddNewPin(lat, lng, imgPath, price)
+                {
+
+                    var contentString = '<div id="content">' +
+                        '<a href="http://99.166.71.191:4570/properties/15126/"><img src="'+imgPath+'" style="width:282px; height:186px;" alt="La Estancia"></a>' +
+                    '<p class="big-img-btm-txt"><strong>&nbsp;&nbsp;$'+price+' / month</strong></p' +
+                    '</div>';
+
+                    var location = new Microsoft.Maps.Location(lat, lng);
+                    var pin = new Microsoft.Maps.Pushpin(location, null);
+                    var infobox = new Microsoft.Maps.Infobox(location, {
+                        //title: 'Map Center',
+                        //description: contentString,
+                        htmlContent: contentString,
+                        visible: false
+                    });
+                    infobox.setMap(map);
+                    Microsoft.Maps.Events.addHandler(pin, 'click', function () {
+                        infobox.setOptions({ visible: true });
+                    });
+                    Microsoft.Maps.Events.addHandler(pin, 'mouseout', function () {
+                        infobox.setOptions({ visible: false });
+                    });
+                    map.entities.push(pin);
+                }
+
+    </script>
+    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?branch=experimental&callback=loadMapScenario' async defer></script>
+</body>
+</html>
+<!--<html>
 <head>
     <style type="text/css">
         html, body {
@@ -56,4 +112,4 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASM0MkrOM2vy8EfgUbB3IPwRdP9PgNZbY&callback=initMap">
     </script>
 </body>
-</html>
+</html>-->
