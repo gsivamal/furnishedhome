@@ -26,11 +26,47 @@
     </environment>
 </head>
 <body>
+    <nav class="navbar navbar-default navbar-static-top">
+        <!--navbar-fixed-top navbar-light bg-faded-->
+        <div class="container-fluid">
+            <!--<button class="navbar-toogler hidden-sm-up" type="button" data-toggle="collapse" data-target="#startupNavbar">&#9776;</button>-->
+            <a class="navbar-brand" href="#"><img src="~/images/small-logo.png" alt="startup.logo" height="13" /></a>
+            <div class="navbar-collapse collapse in" id="startupNavbar">
+                <form class="navbar-form navbar-right">
+                    <a class="btn btn-primary" href="#">Login</a>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/HowItWorks">How it works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/About">About</a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="globe"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;</span>
+                            <span class="region">Browse Top Cities&nbsp;&nbsp;<i class="fa fa-caret-down" aria-hidden="true"></i></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="http://www.stibosystems.com.au/" target="_self">Dallas</a></li>
+                            <li><a href="http://www.stibosystems.nl/" target="_self">Austin</a></li>
+                            <li><a href="http://www.stibosystems.com.br/" target="_self">Houston</a></li>
+                        </ul>
+                        <div id="myDropdown" class="dropdown-content">
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="container body-content">
-        <div class="row-fluid-wrapper row-depth-1 row-number-1 ">
+        <!--<div class="row-fluid-wrapper row-depth-1 row-number-1 ">
             <div class="row-fluid ">
                 <div class="span12 widget-span widget-type-global_group " style="" data-widget-type="global_group" data-x="0" data-w="12">
-                    <!-- start coded_template: id:3882972397 path:generated_global_groups/3882967337.html -->
                     <div class="" data-global-widget-path="generated_global_groups/3882967337.html">
                         <div class="row-fluid-wrapper row-depth-1 row-number-1 ">
                             <div class="row-fluid ">
@@ -144,7 +180,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         @RenderBody()
         <hr />
         <footer>
