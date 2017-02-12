@@ -1,72 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <title>loadMapAsyncHTML</title>
-    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-</head>
-<body>
-    <div id='printoutPanel'></div>
 
-    <section id="map">
-        <div id='bingMap' style="position:relative;width:100%;height:500px;"></div>
-    </section>
-
-    <section id="properties">
-        <div class="container">
-            <div class="row">
-                <h2>Some properties</h2>
-            </div>
-        </div>
-    </section>
-    <script type='text/javascript'>
-
-        var apiKey = "Al3nAvLTiRL6-UDLFNLk2hA4bpQ6RoTrigdFz1M5t-H2g7vFZxkSCo57_VREL56v";
-                var map;
-                function loadMapScenario() {
-                    map = new Microsoft.Maps.Map(document.getElementById('bingMap'), {
-                        credentials: apiKey,//'Your Bing Maps Key'
-                        maxZoom: 15,
-                        minZoom: 12
-                    });
-                    AddNewMarker(15126,55.753900, 37.620617, 9500);
-                    AddNewMarker(13704,55.743900, 37.620617, 5000);
-                    AddNewMarker(15503,55.733900, 37.620617, 1800);
-                    AddNewMarker(15324,55.723900, 37.620617, 4900);
-                }
-
-                function AddNewMarker(PropId, lat, lng, price)
-                {
-
-                    var contentString = '<div id="content">' +
-                        '<a href="http://99.166.71.191:4570/properties/'+PropId+'/"><img src="/images/'+PropId+'_primary.jpg" style="width:282px; height:186px;" alt="La Estancia"></a>' +
-                    '<p class="big-img-btm-txt"><strong>&nbsp;&nbsp;$'+price+' / month</strong></p' +
-                    '</div>';
-
-                    var location = new Microsoft.Maps.Location(lat, lng);
-                    var marker = new Microsoft.Maps.Pushpin(location, null);
-                    var infobox = new Microsoft.Maps.Infobox(location, {
-                        //title: 'Map Center',
-                        //description: contentString,
-                        htmlContent: contentString,
-                        visible: false
-                    });
-                    infobox.setMap(map);
-                    Microsoft.Maps.Events.addHandler(marker, 'click', function () {
-                        infobox.setOptions({ visible: true });
-                    });
-                    Microsoft.Maps.Events.addHandler(marker, 'mouseout', function () {
-                        infobox.setOptions({ visible: false });
-                    });
-                    map.entities.push(marker);
-                }
-
-    </script>
-    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?branch=experimental&callback=loadMapScenario' async defer></script>
-</body>
-</html>
 <!--<html>
 <head>
     <style type="text/css">

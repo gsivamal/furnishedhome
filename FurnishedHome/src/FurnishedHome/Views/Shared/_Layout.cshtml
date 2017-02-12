@@ -7,8 +7,6 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-        <link href="~/css/drop.css" rel="stylesheet">
         <link href="~/css/layout.min.css" rel="stylesheet">
         <link rel="stylesheet" href="~/css/fonts.min.css">
         <link rel="stylesheet" href="~/css/font-awesome.min.css">
@@ -37,27 +35,24 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/HowItWorks">How it works</a>
+                        <a class="nav-link" href="/HowItWorks">How it works</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/Testimonials">Testimonials</a>
+                        <a class="nav-link" href="/Testimonials">Testimonials</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/About">About</a>
+                        <a class="nav-link" href="/About">About</a>
                     </li>
                     <li class="dropdown nav-item">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <span class="globe"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;</span>
                             <span class="region">Browse Top Cities&nbsp;&nbsp;<i class="fa fa-caret-down" aria-hidden="true"></i></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="http://www.stibosystems.com.au/" target="_self">Dallas</a></li>
-                            <li><a href="http://www.stibosystems.nl/" target="_self">Austin</a></li>
-                            <li><a href="http://www.stibosystems.com.br/" target="_self">Houston</a></li>
+                            <li><a href="/Dallas" target="_self">Dallas</a></li>
+                            <li><a href="/Austin" target="_self">Austin</a></li>
+                            <li><a href="/Houston" target="_self">Houston</a></li>
                         </ul>
-                        <div id="myDropdown" class="dropdown-content">
-
-                        </div>
                     </li>
                 </ul>
             </div>
@@ -191,8 +186,6 @@
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="~/js/drop.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -203,8 +196,6 @@
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-        <script src="~/js/drop.js"></script>
     </environment>
 
     @RenderSection("scripts", required: false)
