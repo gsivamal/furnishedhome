@@ -1,0 +1,47 @@
+﻿
+.bottominfo{
+    padding:20px;
+}
+
+.linkBlock
+{
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    padding-left: 10%;
+    font-size: 12px;
+}
+
+.linkBlock span 
+{
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+    display: block;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.linkBlock ul
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0px;
+    padding-left: 0px;
+    list-style: none;
+}
+.linkBlock  a {
+    color: #3d3d3d;
+    text-decoration:none;
+
+}
+
+.linkBlock a:hover {
+    color: #ff6d42;
+}
+
+.linkBlock .icon-linkedin {
+    color: #0d7fbb;
+}
+
+
