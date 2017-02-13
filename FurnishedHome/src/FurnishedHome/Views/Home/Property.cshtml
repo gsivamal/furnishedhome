@@ -11,7 +11,7 @@
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
 </head>
 <body ng-controller="PropertyController" ng-init="init(@Model)" ng-model="property">
-    <div ng-show="{{property}}">
+    <div ng-show="!{{property}}">
         <section id="images">
             <div class="container">
                 <div class="row">
@@ -82,7 +82,10 @@
                                     <div ng-show="{{property.smoking}}">Smoking Yes</div>
                                 </td>
                                 <td>
-                                    <a href="/Book/{{property.id}}">Book Now</a>
+                                    <a class="btn btn-default" href="/Book/{{property.id}}">
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                        Book Now
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>

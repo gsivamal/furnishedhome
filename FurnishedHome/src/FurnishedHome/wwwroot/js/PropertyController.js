@@ -1,27 +1,30 @@
-﻿var app = angular.module("app", []);
+﻿var map;
+var _id;
+var app = angular.module("app", []);
 
 app.controller("PropertyController", function ($scope) {
-    $scope.property = { price: 0 };
+    $scope.property;
     $scope.init = function (id) {
         _id = id;
     };
-    $scope.GetProperty = function () {
+    $scope.SetProperty = function (property) {
         $scope.property = property;
         $scope.$applyAsync();
-    }
+    };
+    $scope.SetProperties = function (properties) {
+        $scope.properties = properties;
+        $scope.$applyAsync();
+    };
 });
 
-var _id;
-var property;
-function showMap()
-{
+function showMap() {
     $.ajax({
         url: "/Home/GetProperty",
         type: "post",
         data: { id: _id },
         dataType: "html",
         success: function (data) {
-            property = JSON.parse(data);
+            var property = JSON.parse(data);
             map = new Microsoft.Maps.Map(document.getElementById('bingMap'), {
                 credentials: "Al3nAvLTiRL6-UDLFNLk2hA4bpQ6RoTrigdFz1M5t-H2g7vFZxkSCo57_VREL56v",//'Your Bing Maps Key'
                 maxZoom: 15,
@@ -29,11 +32,10 @@ function showMap()
                 center: new Microsoft.Maps.Location(property["latitude"], property["longitude"])
             });
             AddNewMarker(property["id"], property["latitude"], property["longitude"], property["price"]);
-            angular.element(document.getElementsByTagName('body')).scope().GetProperty();
+            angular.element(document.getElementsByTagName('body')).scope().SetProperty(property);
         }
     });
 }
-var map;
 function loadMapScenario() {
     map = new Microsoft.Maps.Map(document.getElementById('bingMap'), {
         credentials: "Al3nAvLTiRL6-UDLFNLk2hA4bpQ6RoTrigdFz1M5t-H2g7vFZxkSCo57_VREL56v",//'Your Bing Maps Key'
@@ -48,6 +50,7 @@ function loadMapScenario() {
         dataType: "json",
         contentType: "application/json",
         success: function (properties) {
+            angular.element(document.getElementsByTagName('body')).scope().SetProperties(properties);
             $.each(properties, function (key, value) {
                 AddNewMarker(value["id"], value["latitude"], value["longitude"], value["price"]);
             });
