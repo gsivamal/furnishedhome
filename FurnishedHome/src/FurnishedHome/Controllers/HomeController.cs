@@ -7,7 +7,6 @@ using FurnishedHome.Services;
 
 namespace FurnishedHome.Controllers
 {
-    [Route("")]
     public class HomeController : Controller
     {
         private readonly IPropertyService _propertyService;
@@ -17,13 +16,11 @@ namespace FurnishedHome.Controllers
             _propertyService = propertyService;
         }
 
-        [Route("")]
         public IActionResult Index()
         {
             return View();
         }
 
-        [Route("[action]")]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -31,19 +28,16 @@ namespace FurnishedHome.Controllers
             return View();
         }
 
-        [Route("[action]")]
         public IActionResult HowItWorks()
         {
             return View();
         }
 
-        [Route("[action]")]
         public IActionResult Testimonials()
         {
             return View();
         }
 
-        [Route("[action]")]
         public IActionResult Dallas()
         {
             return View();
@@ -53,6 +47,17 @@ namespace FurnishedHome.Controllers
         public JsonResult GetAllProperties()
         {
             return Json(_propertyService.GetAllProperties());
+        }
+        [HttpPost]
+        public JsonResult GetProperty(long id)
+        {
+            return Json(_propertyService.GetPropertyById(id));
+        }
+
+        public IActionResult Property(long id)
+        {
+            var model = _propertyService.GetPropertyById(id);
+            return View(model.Id);
         }
     }
 }
