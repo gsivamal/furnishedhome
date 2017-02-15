@@ -1,19 +1,70 @@
-﻿using System.Collections.Generic;
+﻿using FurnishedHome.Entities;
+using System.Collections.Generic;
 using System.Linq;
+using System;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
+using MongoDB.Bson;
 
 namespace FurnishedHome.Services
 {
     public interface IPropertyService
     {
-        Property GetPropertyById(long id);
+        void AddProperty(Property property);
+        Property GetPropertyById(int id);
         IEnumerable<Property> GetAllProperties();
         IEnumerable<Property> GetPropertiesByCity(object city);
+        void DeleteProperty(int id);
+        void UpdateProperty(int id, Property property);
     }
 
-    public class PropertyService : IPropertyService
+    public class MongoPropertyService : IPropertyService
+    {
+        private readonly MongoClient _client;
+        private readonly IMongoDatabase _db;
+
+        public MongoPropertyService()
+        {
+            _client = new MongoClient("mongodb://localhost:27017");
+            _db = _client.GetDatabase("FurnishedHomeDB");
+        }
+        public void AddProperty(Property property)
+        {
+            _db.GetCollection<Property>("Properties").InsertOne(property);
+        }
+
+        public void DeleteProperty(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Property> GetAllProperties()
+        {
+            return _db.GetCollection<Property>("Properties").FindSync(new BsonDocument()).ToEnumerable();
+        }
+
+        public IEnumerable<Property> GetPropertiesByCity(object city)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Property GetPropertyById(int id)
+        {
+            var res = Query<Property>.EQ(p => p.Id, id);
+            return _db.GetCollection<Property>("Properties").FindSync(new BsonDocument()).First();
+        }
+
+        public void UpdateProperty(int id, Property property)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class InMemoryPropertyService : IPropertyService
     {
         private List<Property> _list;
-        public PropertyService()
+
+        public InMemoryPropertyService()
         {
             _list = new List<Property>()
             {
@@ -24,7 +75,7 @@ namespace FurnishedHome.Services
             };
         }
 
-        public Property GetPropertyById(long id)
+        public Property GetPropertyById(int id)
         {
             return _list.FirstOrDefault(item=>item.Id==id);
         }
@@ -38,41 +89,20 @@ namespace FurnishedHome.Services
         {
             return null;
         }
-    }
 
-    public class Property
-    {
-        public long Id { get; set; }
+        public void AddProperty(Property property)
+        {
+            throw new NotImplementedException();
+        }
 
-        public double Latitude { get; set; }
+        public void DeleteProperty(int id)
+        {
+            throw new NotImplementedException();
+        }
 
-        public double Longitude { get; set; }
-
-        public double Price { get; set; }
-
-        public byte Bedrooms { get; set; }
-
-        public byte Bathrooms { get; set; }
-
-        public bool Furnished { get; set; }
-
-        public uint Area { get; set; }
-
-        public bool Pets { get; set; }
-
-        public bool Smoking { get; set; }
-
-        public uint Zipcode { get; set; }
-
-        public List<Rent> Rents { get; set; }
-    }
-
-    public class Rent
-    {
-        public int Id { get; set; }
-
-        public int Monthly { get; set; }
-
-        public string Term { get; set; }
+        public void UpdateProperty(int id, Property property)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

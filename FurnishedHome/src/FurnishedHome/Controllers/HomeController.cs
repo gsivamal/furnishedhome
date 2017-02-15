@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FurnishedHome.Services;
+using FurnishedHome.Entities;
 
 namespace FurnishedHome.Controllers
 {
@@ -46,18 +45,24 @@ namespace FurnishedHome.Controllers
         [HttpPost]
         public JsonResult GetAllProperties()
         {
-            return Json(_propertyService.GetAllProperties());
+            var properties = _propertyService.GetAllProperties();
+            return Json(properties);
         }
         [HttpPost]
-        public JsonResult GetProperty(long id)
+        public JsonResult GetProperty(int id)
         {
             return Json(_propertyService.GetPropertyById(id));
         }
 
-        public IActionResult Property(long id)
+        public IActionResult Property(int id)
         {
             var model = _propertyService.GetPropertyById(id);
             return View(model.Id);
+        }
+
+        public IActionResult Admin()
+        {
+            return View();
         }
     }
 }

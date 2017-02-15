@@ -1,9 +1,6 @@
-﻿@model long
-@section Scripts
+﻿@model int
 {
-    <script src="~/lib/angular/angular.min.js"></script>
-    <script src="~/js/PropertyController.js"></script>
-    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?branch=experimental&callback=showMap' async defer></script>
+<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?branch=experimental&callback=showMap' async defer></script>
 }
 <html ng-app="app">
 <head>
@@ -11,7 +8,7 @@
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
 </head>
 <body ng-controller="PropertyController" ng-init="init(@Model)" ng-model="property">
-    <div ng-show="!{{property}}">
+    <div>
         <section id="images">
             <div class="container">
                 <div class="row">

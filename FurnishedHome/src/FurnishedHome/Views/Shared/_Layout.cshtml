@@ -7,6 +7,8 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-material-design/dist/css/bootstrap-material-design.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-material-design/dist/css/ripples.css" />
         <link href="~/css/layout.min.css" rel="stylesheet">
         <link rel="stylesheet" href="~/css/fonts.min.css">
         <link rel="stylesheet" href="~/css/font-awesome.min.css">
@@ -24,14 +26,17 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-default navbar-static-top" style="background:orange; color:white;">
         <!--navbar-fixed-top navbar-light bg-faded-->
         <div class="container-fluid">
             <!--<button class="navbar-toogler hidden-sm-up" type="button" data-toggle="collapse" data-target="#startupNavbar">&#9776;</button>-->
-            <a class="navbar-brand" href="#"><img src="~/images/small-logo.png" alt="startup.logo" height="13" /></a>
+            <a class="navbar-brand" style="padding-top:8px;" href="./">
+            <!--<img src="~/images/icon.png" alt="startup.logo" height="13" />-->
+                <i class="fa fa-home fa-2x" aria-hidden="true"></i>
+                <span style="font-weight:bold;">Furnished Home</span>
+            </a>
             <div class="navbar-collapse collapse in" id="startupNavbar">
                 <form class="navbar-form navbar-right">
-                    <a class="btn btn-primary" href="#">Login</a>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="nav-item">
@@ -54,11 +59,12 @@
                             <li><a href="/Home/Houston" target="_self">Houston</a></li>
                         </ul>
                     </li>
+                    <a class="btn btn-primary" href="#" style="background:white;color:orange;">Login</a>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container body-content">
+    <div class="">
         <!--<div class="row-fluid-wrapper row-depth-1 row-number-1 ">
             <div class="row-fluid ">
                 <div class="span12 widget-span widget-type-global_group " style="" data-widget-type="global_group" data-x="0" data-w="12">
@@ -187,6 +193,14 @@
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/bootstrap-material-design/scripts/material.js"></script>
+        <script src="~/lib/bootstrap-material-design/scripts/ripples.js"></script>
+
+        <script>
+        $.material.init();
+        </script>
+        <script src="~/lib/angular/angular.min.js"></script>
+        <script src="~/js/PropertyController.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
