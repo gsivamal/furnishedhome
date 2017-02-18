@@ -20,7 +20,8 @@
     "Microsoft.AspNetCore.Routing": "1.1.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
-    "mongocsharpdriver": "2.3.0"
+    "mongocsharpdriver": "2.3.0",
+    "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0"
   },
 
   "tools": {

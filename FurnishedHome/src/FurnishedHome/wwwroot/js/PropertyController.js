@@ -3,8 +3,18 @@ var _id;
 var app = angular.module("app", []);
 
 app.controller("PropertyController", function ($scope) {
+    $scope.currentProperty = {
+        zipcode: 75909,
+        adress: "",
+        price: 9500,
+        area: 1500,
+        bedrooms: 3,
+        bathrooms: 2,
+        furnished: true,
+        pets: true,
+        smoking: false
+    };
     $scope.property;
-    $scope.zipcode = "75940";
     $scope.init = function (id) {
         _id = id;
     };
@@ -17,13 +27,25 @@ app.controller("PropertyController", function ($scope) {
         $scope.$applyAsync();
     };
     $scope.addmarker = function () {
-        alert(123);
+        alert(567);
+        //geocodeRequest();
+    };
+    $scope.AddProperty = function () {
+        $.ajax({
+            url: "/Home/AddProperty",
+            data: { property: $scope.currentProperty },
+            type: "post",
+            dataType: "html",
+            success: function () {
+                alert("Added");
+            }
+        });
     };
 });
 
 //http://dev.virtualearth.net/REST/v1/Locations/US/WA/98052/Redmond/1%20Microsoft%20Way?o=xml&key=BingMapsKey
 
-/*var searchManager;
+var searchManager;
 function createSearchManager() {
     if (!searchManager) {
         map.addComponent('searchManager', new Microsoft.Maps.Search.SearchManager(map));
@@ -35,6 +57,7 @@ Microsoft.Maps.loadModule('Microsoft.Maps.Search', { callback: createSearchManag
 
 //url: 'http://dev.virtualearth.net/REST/v1/Locations/' + "32.789891" + ',' + "-96.798593",
 function geocodeRequest() {
+    alert(234);
     createSearchManager();
     var where = 'Dallas';
     var userData = { name: 'Maps Test User', id: 'XYZ' };
@@ -72,7 +95,7 @@ if (searchManager) {
 else {
     Microsoft.Maps.loadModule('Microsoft.Maps.Search', { callback: geocodeRequest });
 }
-*/
+
 function showMap() {
     $.ajax({
         url: "/Home/GetProperty",

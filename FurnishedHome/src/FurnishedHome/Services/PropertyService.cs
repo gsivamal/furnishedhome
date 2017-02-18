@@ -8,39 +8,37 @@ using MongoDB.Bson;
 
 namespace FurnishedHome.Services
 {
-    public interface IPropertyService
+    public interface IPropertyService<TypeId>
     {
         void AddProperty(Property property);
-        Property GetPropertyById(int id);
+        Property GetPropertyById(TypeId id);
         IEnumerable<Property> GetAllProperties();
         IEnumerable<Property> GetPropertiesByCity(object city);
-        void DeleteProperty(int id);
-        void UpdateProperty(int id, Property property);
+        void DeleteProperty(TypeId id);
+        void UpdateProperty(TypeId id, Property property);
     }
 
-    public class MongoPropertyService : IPropertyService
+    public class MongoPropertyService : IPropertyService<ObjectId>
     {
-        private readonly MongoClient _client;
-        private readonly IMongoDatabase _db;
+        private readonly IMongoCollection<Property> _collection;
 
-        public MongoPropertyService()
+        public MongoPropertyService(IMongoCollection<Property> collection)
         {
-            _client = new MongoClient("mongodb://localhost:27017");
-            _db = _client.GetDatabase("FurnishedHomeDB");
+            _collection = collection;
         }
         public void AddProperty(Property property)
         {
-            _db.GetCollection<Property>("Properties").InsertOne(property);
+            _collection.InsertOne(property);
         }
 
-        public void DeleteProperty(int id)
+        public void DeleteProperty(ObjectId id)
         {
-            throw new NotImplementedException();
+            _collection.DeleteOne(p => p.Id == id);
         }
 
         public IEnumerable<Property> GetAllProperties()
         {
-            return _db.GetCollection<Property>("Properties").FindSync(new BsonDocument()).ToEnumerable();
+            return _collection.FindSync(new BsonDocument()).ToEnumerable();
         }
 
         public IEnumerable<Property> GetPropertiesByCity(object city)
@@ -48,19 +46,18 @@ namespace FurnishedHome.Services
             throw new NotImplementedException();
         }
 
-        public Property GetPropertyById(int id)
+        public Property GetPropertyById(ObjectId id)
         {
-            var res = Query<Property>.EQ(p => p.Id, id);
-            return _db.GetCollection<Property>("Properties").FindSync(new BsonDocument()).First();
+            return _collection.FindSync(p => p.Id == id).FirstOrDefault();
         }
 
-        public void UpdateProperty(int id, Property property)
+        public void UpdateProperty(ObjectId id, Property property)
         {
-            throw new NotImplementedException();
+            _collection.ReplaceOne(p=>p.Id==id,property);
         }
     }
-
-    public class InMemoryPropertyService : IPropertyService
+/*
+    public class InMemoryPropertyService : IPropertyService<int>
     {
         private List<Property> _list;
 
@@ -77,7 +74,7 @@ namespace FurnishedHome.Services
 
         public Property GetPropertyById(int id)
         {
-            return _list.FirstOrDefault(item=>item.Id==id);
+            return _list.FirstOrDefault(item => item.Id == id);
         }
 
         public IEnumerable<Property> GetAllProperties()
@@ -104,5 +101,5 @@ namespace FurnishedHome.Services
         {
             throw new NotImplementedException();
         }
-    }
+    }*/
 }

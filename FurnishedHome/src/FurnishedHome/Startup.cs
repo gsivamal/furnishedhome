@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using FurnishedHome.Services;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using FurnishedHome.Entities;
 
 namespace FurnishedHome
 {
@@ -34,8 +37,17 @@ namespace FurnishedHome
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc();
-            
-            services.AddScoped<IPropertyService, MongoPropertyService>();
+
+            var _client = new MongoClient("mongodb://localhost:27017");
+            var database = _client.GetDatabase("FurnishedHomeDB");
+
+            services.AddSingleton(typeof(IMongoCollection<Property>), database.GetCollection<Property>("Properties"));
+            services.AddSingleton(typeof(IMongoCollection<User>), database.GetCollection<User>("Users"));
+            services.AddSingleton(typeof(IMongoCollection<Role>), database.GetCollection<Role>("Roles"));
+
+            services.AddSingleton<IPropertyService<ObjectId>, MongoPropertyService>();
+            services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IRoleService, RoleService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,8 +55,6 @@ namespace FurnishedHome
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-            //app.UseApplicationInsightsRequestTelemetry();
 
             if (env.IsDevelopment())
             {
@@ -55,8 +65,14 @@ namespace FurnishedHome
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            //app.UseApplicationInsightsExceptionTelemetry();
+            
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "Cookies",
+                LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login"),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            });
 
             app.UseStaticFiles();
 

@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using MongoDB.Bson;
+using System.Collections.Generic;
 
 namespace FurnishedHome.Entities
 {
     public class Property
     {
-        public int Id { get; set; }
+        public ObjectId Id { get; set; }
 
         public double Latitude { get; set; }
 

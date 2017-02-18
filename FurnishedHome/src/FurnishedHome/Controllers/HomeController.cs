@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using FurnishedHome.Services;
 using FurnishedHome.Entities;
+using MongoDB.Bson;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FurnishedHome.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IPropertyService _propertyService;
+        private readonly IPropertyService<ObjectId> _propertyService;
 
-        public HomeController(IPropertyService propertyService)
+        public HomeController(IPropertyService<ObjectId> propertyService)
         {
             _propertyService = propertyService;
         }
@@ -49,17 +49,25 @@ namespace FurnishedHome.Controllers
             return Json(properties);
         }
         [HttpPost]
-        public JsonResult GetProperty(int id)
+        public JsonResult GetProperty(ObjectId id)
         {
             return Json(_propertyService.GetPropertyById(id));
         }
 
-        public IActionResult Property(int id)
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public void AddProperty(Property property)
+        {
+            _propertyService.AddProperty(property);
+        }
+
+        public IActionResult Property(ObjectId id)
         {
             var model = _propertyService.GetPropertyById(id);
             return View(model.Id);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Admin()
         {
             return View();
