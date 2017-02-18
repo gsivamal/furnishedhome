@@ -8,9 +8,9 @@ namespace FurnishedHome.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IPropertyService<ObjectId> _propertyService;
+        private readonly IPropertyService _propertyService;
 
-        public HomeController(IPropertyService<ObjectId> propertyService)
+        public HomeController(IPropertyService propertyService)
         {
             _propertyService = propertyService;
         }

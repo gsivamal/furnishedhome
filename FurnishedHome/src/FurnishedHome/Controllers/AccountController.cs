@@ -1,5 +1,6 @@
 ﻿using FurnishedHome.Entities;
 using FurnishedHome.Services;
+using FurnishedHome.Utilities;
 using FurnishedHome.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -29,14 +30,17 @@ namespace FurnishedHome.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await _userService.GetUserAsync(model.Email, model.Password);
-                if (user != null)
+                User user = await _userService.GetUserByEmailAsync(model.Email);
+                if (user == null) ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                var password = Helper.EncodePassword(model.Password, user.SecureCode);
+                if (password != user.Password)
                 {
-                    await Authenticate(user); // аутентификация
-
-                    return RedirectToAction("Index", "Home");
+                    //ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                    return RedirectToAction("Error", "Shared");
                 }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                await Authenticate(user); // аутентификация
+                return RedirectToAction("Index", "Home");
+
             }
             return View(model);
         }
@@ -52,6 +56,9 @@ namespace FurnishedHome.Controllers
             if (ModelState.IsValid)
             {
                 User user = await _userService.GetUserByEmailAsync(model.Email);
+
+                var keyNew = Helper.GeneratePassword(10);
+                var password = Helper.EncodePassword(model.Password, keyNew);
                 if (user == null)
                 {
                     // добавляем админа в бд
@@ -64,7 +71,7 @@ namespace FurnishedHome.Controllers
                             Name = "Admin"
                         };
                         _roleService.AddRole(adminRole);
-                        user = new User() { Email = model.Email, Password = model.Password, Role = adminRole };
+                        user = new User() { Email = model.Email, Password = password, RoleId = _roleService.GetRole("Admin").Id, SecureCode = keyNew };
                         // добавляем пользователя в бд
                         _userService.AddUser(user);
                     }
@@ -80,12 +87,11 @@ namespace FurnishedHome.Controllers
                             _roleService.AddRole(userRole);
                         }
                         // добавляем пользователя в бд
-                        user = new User() { Email = model.Email, Password = model.Password, Role = userRole };
+                        user = new User() { Email = model.Email, Password = model.Password, RoleId = _roleService.GetRole("User").Id, SecureCode = keyNew };
                         _userService.AddUser(user);
                     }
 
                     await Authenticate(user); // аутентификация
-
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -100,7 +106,7 @@ namespace FurnishedHome.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, _roleService.GetRoleById(user.RoleId).Name)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
@@ -112,7 +118,7 @@ namespace FurnishedHome.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.Authentication.SignOutAsync("Cookies");
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

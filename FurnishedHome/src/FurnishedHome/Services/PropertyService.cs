@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using MongoDB.Bson;
 
 namespace FurnishedHome.Services
 {
-    public interface IPropertyService<TypeId>
+    public interface IPropertyService
     {
         void AddProperty(Property property);
-        Property GetPropertyById(TypeId id);
+        Property GetPropertyById(ObjectId id);
         IEnumerable<Property> GetAllProperties();
         IEnumerable<Property> GetPropertiesByCity(object city);
-        void DeleteProperty(TypeId id);
-        void UpdateProperty(TypeId id, Property property);
+        void DeleteProperty(ObjectId id);
+        void UpdateProperty(ObjectId id, Property property);
     }
 
-    public class MongoPropertyService : IPropertyService<ObjectId>
+    public class MongoPropertyService : IPropertyService
     {
         private readonly IMongoCollection<Property> _collection;
 

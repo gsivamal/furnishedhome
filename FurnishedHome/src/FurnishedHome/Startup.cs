@@ -45,7 +45,7 @@ namespace FurnishedHome
             services.AddSingleton(typeof(IMongoCollection<User>), database.GetCollection<User>("Users"));
             services.AddSingleton(typeof(IMongoCollection<Role>), database.GetCollection<Role>("Roles"));
 
-            services.AddSingleton<IPropertyService<ObjectId>, MongoPropertyService>();
+            services.AddSingleton<IPropertyService, MongoPropertyService>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IRoleService, RoleService>();
         }
